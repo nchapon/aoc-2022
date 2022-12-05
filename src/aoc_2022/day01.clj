@@ -1,12 +1,7 @@
 (ns aoc-2022.day01
   "AOC 2022 Day 01"
   (:require
-   [clojure.string :as string]))
-
-(defn get-elves-calories
-  "Get Elves Calories"
-  []
-  (string/split-lines (slurp "input/day01.txt")))
+   [aoc-2022.utils :refer [get-puzzle-input]]))
 
 (defn- sum-calories
   [calories]
@@ -65,13 +60,13 @@
   ;; => 24000
 
   ;; part1
-  (get-most-calories (get-elves-calories))
+  (get-most-calories (get-puzzle-input "day01"))
 ;; => 75501
 
   ;; part 2
   (get-top3-most-calories input) ;; => 45000
 
-  (get-top3-most-calories (get-elves-calories)) ;; => 215594
+  (get-top3-most-calories (get-puzzle-input "day01")) ;; => 215594
   )
 
 
