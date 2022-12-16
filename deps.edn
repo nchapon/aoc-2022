@@ -1,11 +1,10 @@
 {:paths ["src"]
  :deps  {}
  :aliases
- {:neil {:project {:name aoc-2022/aoc-2022}}
+ {:test {:main-opts ["-m" "kaocha.runner"]
+         :extra-deps {lambdaisland/kaocha {:mvn/version "1.71.1119"}
+                      lambdaisland/kaocha-cloverage {:mvn/version "1.1.89"}}}}}
 
- :test ;; added by neil
- {:extra-paths ["test"]
-  :extra-deps {io.github.cognitect-labs/test-runner
-                {:git/tag "v0.5.0" :git/sha "b3fd0d2"}}
-  :main-opts ["-m" "cognitect.test-runner"]
-  :exec-fn cognitect.test-runner.api/test}}}
+
+
+

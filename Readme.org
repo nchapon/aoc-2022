@@ -1,0 +1,15 @@
+* AOC 2022
+
+Another try Advent Of Code 2022 in clojure
+
+** Run tests
+
+#+begin_src shell
+bin/kaocha 
+#+end_src
+
+With coverage
+
+#+begin_src shell
+bin/kaocha --plugin cloverage
+#+end_src
