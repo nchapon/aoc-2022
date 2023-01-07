@@ -37,9 +37,9 @@
 
 (defn update-size
   "Update size directory and parents"
-  [dirs command current-path]
+  [fs command current-path]
   (let [size (parse-size command)]
-    (loop [temp-dirs dirs
+    (loop [temp-dirs fs
            path current-path]
       (if-not (empty? path)
         (recur (update temp-dirs path + size) (parent-path path))
@@ -47,9 +47,9 @@
 
 (defn add-directory
   "Add directory"
-  [dirs command current-path]
+  [fs command current-path]
   (println "Add directory" command)
-  (assoc dirs (parse-dirname current-path command) 0))
+  (assoc fs (parse-dirname current-path command) 0))
 
 (defn update-current-path [command path]
   (cond
@@ -58,27 +58,26 @@
     :else path))
 
 (defn parse-command
-  "Parse "
-  [dirs command current-path]
-  (println dirs)
+  "Parse command"
+  [fs command current-path]
   (cond
-    (string/starts-with? command "dir") (add-directory dirs command current-path)
-    (re-seq #"(\d+)" command) (update-size dirs command current-path)
-    :else  dirs))
+    (string/starts-with? command "dir") (add-directory fs command current-path)
+    (re-seq #"(\d+)" command) (update-size fs command current-path)
+    :else  fs))
 
 (defn parse-commands
   "Parse commands"
   [lines]
-  (loop [dirs {"/" 0}
+  (loop [fs {"/" 0}
          cmd ""
          current-path ""
          commands lines]
     (if-not (empty? commands)
-      (recur (parse-command dirs cmd current-path)
+      (recur (parse-command fs cmd current-path)
              (first commands)
              (update-current-path cmd current-path)
              (rest commands))
-      (parse-command dirs cmd current-path))))
+      (parse-command fs cmd current-path))))
 
 (defn part1
   "What is the sum of the total sizes of those directories?"
@@ -98,11 +97,11 @@
 (defn part2
   "What is the total size of the smallest directory to delete ?"
   [input]
-  (let [dirs (parse-commands input)
-        total-used (get dirs "/")
+  (let [fs (parse-commands input)
+        total-used (get fs "/")
         unused-disk (- disk-size total-used)]
     (loop [smallest-size 0
-           size-of-dirs-to-delete (rest (sort (vals dirs)))]
+           size-of-dirs-to-delete (rest (sort (vals fs)))]
       (if (> (+ smallest-size unused-disk) size-needed)
         smallest-size
         (recur (first size-of-dirs-to-delete) (rest size-of-dirs-to-delete))))))
